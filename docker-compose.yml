@@ -1,0 +1,6 @@
+node:
+  build: .
+  container_name: "log-server"
+  env_file: .env
+  ports:
+    - "5145:5145/udp"
