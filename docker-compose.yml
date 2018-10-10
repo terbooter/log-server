@@ -4,3 +4,4 @@ node:
   env_file: .env
   ports:
     - "5145:5145/udp"
+    - "8888:8888"

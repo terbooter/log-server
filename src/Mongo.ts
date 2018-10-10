@@ -1,7 +1,6 @@
 import {EventEmitter} from "events";
 import {Collection, Db, MongoClient, MongoClientOptions} from "mongodb";
 
-
 export class Mongo extends EventEmitter {
 
     private client: MongoClient;
@@ -40,10 +39,14 @@ export class Mongo extends EventEmitter {
         return this.db.collection("logs");
     }
 
+    public users(): Collection {
+        return this.db.collection("users");
+    }
 
     private createIndexes() {
         this.logs().createIndex({"created_at": 1}, {"unique": false, background: true});
         this.logs().createIndex({"host": 1}, {"unique": false, background: true});
         this.logs().createIndex({"container": 1}, {"unique": false, background: true});
+        this.users().createIndex({"email": 1}, {"unique": true, background: true});
     }
 }

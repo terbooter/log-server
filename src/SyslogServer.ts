@@ -54,6 +54,6 @@ export class SyslogServer extends EventEmitter {
 
     private onListening() {
         const address = this.socket.address();
-        console.log(`server listening ${address.address}:${address.port}`);
+        console.log(`Syslog Server listening ${address.address}:${address.port}`);
     }
 }
