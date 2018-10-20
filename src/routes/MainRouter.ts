@@ -14,11 +14,19 @@ export class MainRouter {
         this.router = express.Router();
 
         this.router
+            .use((req, res, next) => {
+                console.log(req.query);
+                console.log(req.body);
+                next();
+            })
             .post("/signin", this.signIn.bind(this))
             .post("/signup", this.signUp.bind(this))
             .use(this.checkToken.bind(this))
             .post("/refresh-token", this.refreshToken.bind(this))
             .get("/me", this.getMe.bind(this))
+            .get("/hosts", this.getHosts.bind(this))
+            .get("/containers", this.getContainers.bind(this))
+            .post("/get-logs", this.getLogs.bind(this))
     }
 
     private async checkToken(req: Request, res, next) {
@@ -49,6 +57,34 @@ export class MainRouter {
         }
         res.user_id = decoded.user_id;
         next();
+    }
+
+    private async getLogs(req, res, next) {
+        const {host, container, text} = req.body;
+        let find: any = {};
+        if (host !== "all") {
+            find.host = host;
+        }
+        if (container !== "all") {
+            find.container = container;
+        }
+        if (text !== "") {
+            find.message = {$regex: `.*${text}.*`};
+        }
+        let arr = await this.mongo.logs().find(find).sort({created_at: -1}).limit(20).toArray();
+        res.json({success: true, data: {logs: arr}});
+    }
+
+    private async getHosts(req, res, next) {
+        let arr = await this.mongo.logs().distinct("host", {});
+        arr.unshift("all");
+        res.json({success: true, data: {hosts: arr}});
+    }
+
+    private async getContainers(req, res, next) {
+        let arr = await this.mongo.logs().distinct("container", {});
+        arr.unshift("all");
+        res.json({success: true, data: {containers: arr}});
     }
 
     private async getMe(req, res, next) {
