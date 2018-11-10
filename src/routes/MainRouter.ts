@@ -92,7 +92,7 @@ export class MainRouter {
 
         let user;
         try {
-            user = {};
+            user = await this.mongo.users().findOne({_id: new ObjectID(res.user_id)});
         } catch (error) {
             next();
             return;
