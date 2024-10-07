@@ -22,7 +22,7 @@ export class Mongo extends EventEmitter {
         console.log(url);
 
         const options: MongoClientOptions = {
-            useNewUrlParser: true
+            // useNewUrlParser: true
         };
 
         this.client = await MongoClient.connect(url, options);

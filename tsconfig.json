@@ -4,7 +4,6 @@
     "module": "commonjs",
     "strict": true,
     "noImplicitAny": false,
-    "watch": false,
     "sourceMap": true,
     "skipDefaultLibCheck": true,
     "strictPropertyInitialization": false,

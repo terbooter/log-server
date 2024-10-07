@@ -1,7 +1,13 @@
 import dgram = require("dgram");
-import {AddressInfo, Socket} from "dgram";
+import {Socket} from "dgram";
 import {Log} from "./interfaces";
 import {EventEmitter} from "events";
+
+interface AddressInfo {
+    address: string;
+    family: string;
+    port: number;
+}
 
 export class SyslogServer extends EventEmitter {
     private socket: Socket;

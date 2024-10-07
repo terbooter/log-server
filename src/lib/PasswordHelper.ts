@@ -1,7 +1,7 @@
 
 export class PasswordHelper {
 
-    private static bcrypt = require("bcrypt");
+    private static bcrypt = require("bcryptjs");
 
     public static async checkPassword(password, hash): Promise<boolean> {
 

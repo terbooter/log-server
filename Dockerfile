@@ -1,20 +1,15 @@
-FROM ubuntu:18.04
-ENV BUILD_DATE=08_09_2018
-ENV TERM=xterm
-RUN apt-get update
-RUN apt-get install -y software-properties-common curl sudo
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-RUN apt-get install -y nodejs git git-core gcc make build-essential
-RUN npm install -g jest typescript@3.0.3
+FROM node:20.15-alpine
 
-RUN apt-get update
+WORKDIR /application
 
 COPY package.json .
 COPY package-lock.json .
 RUN npm i
 
-COPY . /application
-WORKDIR /application
-RUN tsc -p tsconfig.json
+COPY . .
+
+#RUN npm run build
+
+EXPOSE 3000
 
 CMD ["npm", "run", "start"]

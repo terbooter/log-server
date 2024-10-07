@@ -3,7 +3,7 @@ import {Request, Router} from "express";
 import {JWTHelper} from "../lib/JWTHelper";
 import {Mongo} from "../Mongo";
 import {PasswordHelper} from "../lib/PasswordHelper";
-import {ObjectID} from "bson";
+import {ObjectId} from 'mongodb'
 
 export class MainRouter {
 
@@ -92,7 +92,7 @@ export class MainRouter {
 
         let user;
         try {
-            user = await this.mongo.users().findOne({_id: new ObjectID(res.user_id)});
+            user = await this.mongo.users().findOne({_id: new ObjectId(res.user_id)});
         } catch (error) {
             next();
             return;
@@ -113,7 +113,8 @@ export class MainRouter {
         try {
             await this.mongo.users().insertOne({email, password: passwordHash});
         } catch (error) {
-            if (error.constraint = "unique_email") {
+            // @ts-ignore
+            if (error.constraint == "unique_email") {
                 next({status: 400, message: "email already exists"});
                 return;
             } else {
@@ -153,7 +154,7 @@ export class MainRouter {
         const {token} = req.body;
         let user;
         try {
-            user = await this.mongo.users().findOne({_id: new ObjectID(res.user_id)});
+            user = await this.mongo.users().findOne({_id: new ObjectId(res.user_id)});
             console.log(user);
         } catch (error) {
             next();

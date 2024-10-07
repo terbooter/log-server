@@ -50,11 +50,7 @@ export class WebServer {
 
     public async listen(port): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.app.listen(port, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
+            this.app.listen(port, () => {
                 console.log(`Web Server listening on port ${port}`);
                 resolve();
             });
